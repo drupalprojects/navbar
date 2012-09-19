@@ -19,7 +19,7 @@
  * @ingroup themeable
  */
 ?>
-<div id="navbar" role="navigation" class="<?php print $attributes['class']; ?> clearfix" <?php print $attributes; ?>>
+<nav id="navbar" role="navigation" class="<?php print $classes; ?> clearfix" <?php print $attributes; ?>>
   <div class="navbar-bar clearfix">
     <div class="section first">
       <?php print render($navbar['navbar_navigation']); ?>

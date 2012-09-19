@@ -119,8 +119,20 @@ function navbar_view() {
   $build = array(
     '#theme' => 'navbar',
     '#attached'=> array(
-      'library' => array(
-        array('navbar', 'drupal.navbar'),
+      'js' => array(
+        drupal_get_path('module', 'navbar') . '/js/navbar.js' => array(),
+      ),
+      'css' => array(
+        drupal_get_path('module', 'navbar') . '/css/navbar.base.css',
+        drupal_get_path('module', 'navbar') . '/css/navbar.theme.css',
+      ),
+      'dependencies' => array(
+        array('system', 'jquery'),
+        array('system', 'drupal'),
+        array('system', 'drupal.settings'),
+        array('system', 'jquery.once'),
+        array('system', 'jquery.cookie'),
+        array('system', 'jquery.ui.position'),
       ),
     ),
   );
@@ -329,32 +341,4 @@ function navbar_in_active_trail($path) {
     }
   }
   return in_array($path, $active_paths);
-}
-
-/**
- * Implements hook_library_info().
- */
-function navbar_library_info() {
-  $libraries['drupal.navbar'] = array(
-    'title' => 'navbar',
-    'version' => VERSION,
-    'js' => array(
-      drupal_get_path('module', 'navbar') . '/js/navbar.js' => array(),
-    ),
-    'css' => array(
-      drupal_get_path('module', 'navbar') . '/css/navbar.base.css',
-      drupal_get_path('module', 'navbar') . '/css/navbar.theme.css',
-      drupal_get_path('module', 'navbar') . '/css/navbar.accordion.css',
-    ),
-    'dependencies' => array(
-      array('system', 'jquery'),
-      array('system', 'drupal'),
-      array('system', 'drupal.settings'),
-      array('system', 'jquery.once'),
-      array('system', 'jquery.cookie'),
-      array('system', 'jquery.ui.position'),
-    ),
-  );
-
-  return $libraries;
 }
