@@ -361,7 +361,7 @@ function navbar_page_alter(&$page) {
  */
 function navbar_shortcut_pre_render($navbar) {
   $links = shortcut_renderable_links();
-  $links['#prefix'] = '<div class="navbar-shortcuts">';
+  $links['#prefix'] = '<div class="shortcuts-list">';
   $links['#suffix'] = '</div>';
   $shortcut_set = shortcut_current_displayed_set();
   $configure_link = NULL;
