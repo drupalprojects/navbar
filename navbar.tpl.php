@@ -21,16 +21,10 @@
 ?>
 <nav id="navbar" role="navigation" class="<?php print $classes; ?> clearfix" <?php print $attributes; ?>>
   <div class="navbar-bar clearfix">
-    <div class="section first">
+    <div class="section col-half">
       <?php print render($navbar['navbar_navigation']); ?>
     </div>
-    <div class="section second">
-      <?php if (!empty($navbar['action_links'])): ?>
-        <h2 class="element-invisible"><?php print t('navbar page actions'); ?></h2>
-          <?php print render($navbar['action_links']); ?>
-      <?php endif; ?>
-    </div>
-    <div class="section third">
+    <div class="section col-half">
       <?php if (!empty($navbar['navbar_user'])) : ?>
         <?php print render($navbar['navbar_user']); ?>
       <?php endif; ?>
@@ -39,7 +33,6 @@
 
   <div class="navbar-tray" name="navbar-tray">
     <div class="lining slider">
-      <?php print render($navbar['navbar_filter']); ?>
       <?php if (!empty($navbar['navbar_shortcuts'])) : ?>
         <?php print render($navbar['navbar_shortcuts']); ?>
       <?php endif; ?>

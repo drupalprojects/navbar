@@ -201,30 +201,11 @@ function navbar_view() {
     '#heading' => array('text' => t('navbar navigation'), 'level' => 'h2', 'class' => 'element-invisible'),
   );
 
-  // navbar local actions.
-  $local_actions = menu_local_actions();
-  $links = navbar_convert_action_links_to_standard_links($local_actions);
-  if (!empty($local_actions)) {
-    $build['action_links'] = array(
-      '#theme' => 'links',
-      '#links' => $links,
-    );
-  }
-
   // Retrieve the admin menu from the database.
   $tree = navbar_get_menu_tree();
   // Add attributes to the links before rendering.
   navbar_menu_navigation_links($tree);
   $build['navbar_menu'] = menu_tree_output($tree);
-
-  // Add a search form element for the jump-to form element.
-  $build['navbar_filter'] = array(
-    '#type' => 'search',
-    '#attributes' => array(
-      'class' => array('filter'),
-      'placeholder' => t('Search'),
-    ),
-  );
 
   // Shortcuts.
   $build['navbar_shortcuts'] = array(
@@ -355,4 +336,49 @@ function navbar_library() {
   );
 
   return $libraries;
+}
+
+/**
+ *
+ */
+/**
+ * Implements hook_page_alter().
+ *
+ * Pull the shortcuts into the navbar.
+ */
+function navbar_page_alter(&$page) {
+  if (module_exists('shortcut') && isset($page['page_bottom']['navbar'])) {
+    // If the toolbar is available, add a pre-render function to display the
+    // current shortcuts in the toolbar drawer.
+    $page['page_bottom']['navbar']['#pre_render'][] = 'navbar_shortcut_pre_render';
+  }
+}
+
+/**
+ * Modified from shortcut_toolbar_pre_render().
+ *
+ * Renders user shorcut links into the navbar. 
+ */
+function navbar_shortcut_pre_render($navbar) {
+  $links = shortcut_renderable_links();
+  $links['#prefix'] = '<div class="navbar-shortcuts">';
+  $links['#suffix'] = '</div>';
+  $shortcut_set = shortcut_current_displayed_set();
+  $configure_link = NULL;
+  if (shortcut_set_edit_access($shortcut_set)) {
+    $configure_link = array(
+      '#type' => 'link',
+      '#title' => t('Edit shortcuts'),
+      '#href' => 'admin/config/user-interface/shortcut/' . $shortcut_set->set_name,
+      '#options' => array('attributes' => array('id' => 'edit-shortcuts')),
+    );
+  }
+
+  $drawer = array(
+    'shortcuts' => $links,
+    'configure' => $configure_link,
+  );
+
+  $navbar['navbar_shortcuts'][] = $drawer;
+  return $navbar;
 }

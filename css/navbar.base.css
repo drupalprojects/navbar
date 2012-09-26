@@ -58,7 +58,9 @@ body.navbar {
   float: left;
   min-height: 2.875em;
   min-height: 2.875rem;
-  width: 33.3333%;
+}
+#navbar .col-half {
+  width: 50%;
 }
 #navbar .navbar-bar .menu li {
   display: block;
